@@ -45,20 +45,33 @@ This project visualizes urban population distribution and green space availabili
 
 ### 🗺️ Urban Population Map
 
-figures/urban_population_map.jpeg
+This map shows the urban population distribution across communes in the Metropolitan Region of Chile.
+
+![Urban Population Map](https://github.com/CodeByNoman/AGP3141_Metropolitana_Analysis/blob/main/Figures/urban_population_map.jpeg)
 
 ### 🌱 Green Area per Inhabitant
 
-![gures/green_area_bar_chart.jpeg
+This bar chart shows the median green area available per inhabitant across communes in the Metropolitan Region of Chile, highlighting disparities in access to urban green spaces.
 
-## 👤 Author
+![Green Area Bar Chart](https://github.com/CodeByNoman/AGP3141_Metropolitana_Analysis/blob/main/Figures/green_area_bar_chart.jpeg)
 
-**Noman Ahmad**  
-Date: 2025-10-31  
-CRS: EPSG:4326
+### 🧭 Combined Visualization
+
+This combined visualization presents both the urban population distribution and the median green area per inhabitant across communes in the Metropolitan Region of Chile, offering a comparative view of demographic density and access to green spaces.
+
+![Combined Map and Bar Chart](https://github.com/CodeByNoman/AGP3141_Metropolitana_Analysis/blob/main/Figures/map_bar_chart.jpg)
+
+
 
 ## 📖 Reference
 
 This project makes extensive use of the **tmap** package for spatial visualization. For a comprehensive guide, refer to:
 
 > Tennekes M., Nowosad J. (2025) *Spatial Data Visualization with tmap: A Practical Guide to Thematic Mapping in R*. Available at: https://tmap.geocompx.org
+
+
+## 👤 Author
+
+**Noman Ahmad**  
+Date: 2025-10-31  
+CRS: EPSG:4326
