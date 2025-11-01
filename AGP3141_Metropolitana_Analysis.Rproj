@@ -1,13 +1,101 @@
-Version: 1.0
+# Load libraries
+library(sf)
+library(tmap)
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(patchwork)
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+# Load and join data
+metropolitana <- st_read("scr/datos/metropolitana.geojson")
+area_verde <- read_csv("scr/datos/areaverde_por_habitante.csv")
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+# Clean and join data
+metro_areaverde <- metropolitana %>%
+  clean_names() %>%
+  mutate(comuna = tolower(comuna)) %>%
+  left_join(area_verde %>%
+              clean_names() %>%
+              mutate(comuna = tolower(nombre_de_comuna)),
+            by = "comuna")
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+# Create short number labels for population
+metro_areaverde <- metro_areaverde %>%
+  mutate(pop_label = case_when(
+    sum_of_poblacion_comunal_urbana >= 1e6 ~ paste0(round(sum_of_poblacion_comunal_urbana / 1e6, 1), "M"),
+    sum_of_poblacion_comunal_urbana >= 1e3 ~ paste0(round(sum_of_poblacion_comunal_urbana / 1e3, 1), "k"),
+    TRUE ~ as.character(sum_of_poblacion_comunal_urbana)
+  ))
+
+# Set tmap to static mode
+tmap_mode("plot")
+
+# Create map with serif font and bold legend title, plus minimap
+map <- tm_shape(metro_areaverde) +
+  tm_basemap("OpenStreetMap") +
+  tm_fill("sum_of_poblacion_comunal_urbana",
+          palette = "-viridis",
+          style = "quantile",
+          title = expression(bold("Urban Population")),
+          textNA = "Unknown") +
+  tm_borders(col = "grey30", lwd = 0.5) +
+  tm_credits("CRS: EPSG:4326 | Date: 2025-10-31 | Author: Noman Ahmad",
+             fontface = "bold",
+             fontfamily = "serif",
+             position = c("left", "BOTTOM"),
+             size = 0.6) +
+  tm_compass(type = "8star", size = 5, position = c(1.07, 0.45)) +
+  tm_scale_bar(position = c(1.05, 0.08)) +
+  tm_grid(
+    projection = 4326,
+    lines = TRUE,
+    ticks = TRUE,
+    labels.inside.frame = FALSE,
+    labels.only = c("left", "bottom"),
+    labels.size = 0.6,
+    fontfamily = "serif"
+  ) +
+  tm_layout(
+    fontfamily = "serif",
+    legend.title.size = 1.0,
+    legend.title.fontface = "bold"
+  ) +
+  tm_minimap(position = c(0.01, 1), height = 4, width = 4.5)
+
+print(map)
+
+# Bar chart with rounded labels, serif font, bold black x-axis, no grid, and horizontal legend inside top-left
+barras <- metro_areaverde %>%
+  drop_na(median_superficie_de_area_verde_por_habitante) %>%
+  ggplot(
+    aes(x = fct_reorder(comuna, median_superficie_de_area_verde_por_habitante),
+        y = median_superficie_de_area_verde_por_habitante,
+        fill = median_superficie_de_area_verde_por_habitante)
+  ) +
+  geom_col() +
+  geom_text(aes(label = round(median_superficie_de_area_verde_por_habitante)),
+            vjust = -0.3,
+            size = 3,
+            family = "serif") +
+  labs(x = NULL, y = "Green area per inhabitant (m²)", fill = "Green area (m²/person)") +
+  scale_fill_viridis_c(begin = 0, end = 0.8) +
+  theme_bw(base_family = "serif") +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, color = "black"),
+    axis.title.y = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold"),
+    legend.position = c(0.05, 0.95),  # top-left inside plot
+    legend.direction = "horizontal",
+    legend.justification = c(0, 1),
+    legend.background = element_rect(fill = "white", color = NA)
+  )
+
+print(barras)
+
+# Combine with patchwork (note: tmap objects can't be patched directly with ggplot)
+# You can display them separately or save them and combine externally
+print(map)
+print(barras)
+
