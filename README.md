@@ -1,4 +1,4 @@
-# 🌿 Urban Green Space Visualization in Metropolitan Chile
+# 🌿 Spatial and Statistical Insights into Population Density and Green Space Access in Santiago, Chile
 
 This project visualizes urban population distribution and green space availability per inhabitant across communes in the Metropolitan Region of Chile. It combines spatial data with statistical summaries to produce thematic maps and bar charts using R.
 
