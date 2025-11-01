@@ -3,14 +3,16 @@
 This project visualizes urban population distribution and green space availability per inhabitant across communes in the Metropolitan Region of Chile. It combines spatial data with statistical summaries to produce thematic maps and bar charts using R.
 
 ## 📦 Project Structure
-Urban Green Space Visualization in Metropolitan ChileThis project visualizes urban population distribution and green space availability per inhabitant across communes in the Metropolitan Region of Chile. It combines spatial data with statistical summaries to produce thematic maps and bar charts using R.
 ```
-├── scr/
-│   └── datos/
-│       ├── metropolitana.geojson
-│       └── areaverde_por_habitante.csv
-├── main.R
-└── README.md
+├── AGP3141_Metropolitana_Analysis/
+│   ├── datos/
+│   │   ├── metropolitana.geojson                 # Spatial boundaries of communes
+│   │   └── areaverde_por_habitante.csv           # Green area per inhabitant data
+│   ├── figures/
+│   │   ├── urban_population_map.png              # Output map showing urban population
+│   │   └── green_area_bar_chart.png              # Output chart showing green area per inhabitant
+│   ├── main.R                                    # Main R script for analysis and visualization
+│   └── README.md                                 # Project documentation
 ```
 ## 📊 Visualizations
 
