@@ -30,7 +30,7 @@ metro_areaverde <- metro_areaverde %>%
 # Set tmap to static mode
 tmap_mode("plot")
 
-# Create map with serif font and bold legend title, plus minimap
+# Map with serif font and bold legend title, plus minimap
 map <- tm_shape(metro_areaverde) +
   tm_basemap("OpenStreetMap") +
   tm_fill("sum_of_poblacion_comunal_urbana",
