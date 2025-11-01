@@ -41,6 +41,16 @@ This project visualizes urban population distribution and green space availabili
 - Custom map layout with serif fonts and bold legend titles.
 - Bar chart with reordered communes and rounded labels.
 
+## 📊 Figures
+
+### 🗺️ Urban Population Map
+
+figures/urban_population_map.jpeg
+
+### 🌱 Green Area per Inhabitant
+
+![gures/green_area_bar_chart.jpeg
+
 ## 👤 Author
 
 **Noman Ahmad**  
